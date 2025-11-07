@@ -24,8 +24,9 @@ if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("p
     {
         var uri = new Uri(connectionString);
         var userInfo = uri.UserInfo.Split(':');
+        var dbPort = uri.Port > 0 ? uri.Port : 5432; 
 
-        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.Trim('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+        connectionString = $"Host={uri.Host};Port={dbPort};Database={uri.AbsolutePath.Trim('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
 
         Console.WriteLine("URL convertida exitosamente");
     }
