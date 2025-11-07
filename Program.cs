@@ -16,6 +16,11 @@ if (string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("No se encontró la cadena de conexión a la base de datos");
 }
 
+if (connectionString.StartsWith("postgres://"))
+{
+    connectionString = connectionString.Replace("postgres://", "postgresql://");
+}
+
 Console.WriteLine($"Conectando a la base de datos... (longitud: {connectionString.Length})");
 
 builder.Services.AddDbContext<CongresoDbContext>(options =>
