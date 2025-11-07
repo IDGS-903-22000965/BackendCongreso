@@ -16,15 +16,29 @@ if (string.IsNullOrEmpty(connectionString))
     throw new InvalidOperationException("No se encontró la cadena de conexión a la base de datos");
 }
 
-if (connectionString.StartsWith("postgres://"))
-{
-    connectionString = connectionString.Replace("postgres://", "postgresql://");
-}
+Console.WriteLine($"URL original (longitud: {connectionString.Length})");
 
-Console.WriteLine($"Conectando a la base de datos... (longitud: {connectionString.Length})");
+if (connectionString.StartsWith("postgres://") || connectionString.StartsWith("postgresql://"))
+{
+    try
+    {
+        var uri = new Uri(connectionString);
+        var userInfo = uri.UserInfo.Split(':');
+
+        connectionString = $"Host={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.Trim('/')};Username={userInfo[0]};Password={userInfo[1]};SSL Mode=Require;Trust Server Certificate=true";
+
+        Console.WriteLine("URL convertida exitosamente");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error al convertir URL: {ex.Message}");
+        throw;
+    }
+}
 
 builder.Services.AddDbContext<CongresoDbContext>(options =>
     options.UseNpgsql(connectionString));
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirTodo", policy =>
@@ -40,13 +54,13 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Aplicar migraciones automáticamente
 using (var scope = app.Services.CreateScope())
 {
     try
     {
         var db = scope.ServiceProvider.GetRequiredService<CongresoDbContext>();
         db.Database.Migrate();
+        Console.WriteLine("Migraciones aplicadas exitosamente");
     }
     catch (Exception ex)
     {
@@ -56,7 +70,6 @@ using (var scope = app.Services.CreateScope())
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 app.UseCors("PermitirTodo");
 
