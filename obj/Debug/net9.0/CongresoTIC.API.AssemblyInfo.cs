@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CongresoTIC.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+772ce926231150b1b613aa0565383a713038ebab")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a14b445cf82d035a3c0af6d4db89c95aa60315a8")]
 [assembly: System.Reflection.AssemblyProductAttribute("CongresoTIC.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CongresoTIC.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
