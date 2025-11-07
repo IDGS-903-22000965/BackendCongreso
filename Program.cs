@@ -11,6 +11,13 @@ builder.Services.AddControllers();
 var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL")
     ?? builder.Configuration.GetConnectionString("ConexionBD");
 
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("No se encontró la cadena de conexión a la base de datos");
+}
+
+Console.WriteLine($"Conectando a la base de datos... (longitud: {connectionString.Length})");
+
 builder.Services.AddDbContext<CongresoDbContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddCors(options =>
