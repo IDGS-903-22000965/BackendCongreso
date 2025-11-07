@@ -36,9 +36,8 @@ namespace CongresoTIC.API.Models
         [Required]
         public bool AceptaTerminos { get; set; }
 
-        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        public DateTime FechaRegistro { get; set; } = DateTime.UtcNow;
 
-        // Propiedad calculada para nombre completo (no se guarda en BD)
         [NotMapped]
         public string NombreCompleto => $"{Nombre} {Apellidos}";
     }

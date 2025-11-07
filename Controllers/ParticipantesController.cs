@@ -108,7 +108,7 @@ namespace CongresoTIC.API.Controllers
                     return BadRequest(new { mensaje = "El usuario de Twitter ya está registrado" });
                 }
 
-                participante.FechaRegistro = DateTime.Now;
+                participante.FechaRegistro = DateTime.UtcNow;
 
                 _context.Participantes.Add(participante);
                 await _context.SaveChangesAsync();
